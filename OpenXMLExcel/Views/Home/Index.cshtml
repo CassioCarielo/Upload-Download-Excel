@@ -1,0 +1,36 @@
+﻿@model OpenXMLExcel.Models.ExcelStatus
+
+@{
+    ViewBag.Title = "Exemplo de Upload & Download Excel";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Exemplo de Upload & Download Excel</title>
+    <script type="text/javascript" src="/Scripts/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+@using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="excelFile" />
+    <input type="button" value="Upload" class="save" name="btnSubmit" id="btnSubmit" />
+    <button onclick="location.href='@Url.Action("DownloadFile", "Home")';return false;">Download</button>
+}
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSubmit').click(function () {
+            var fileName = $('[name="excelFile"]').val().trim();
+            var pos = fileName.lastIndexOf('.');
+            var extension = (pos <= 0) ? '' : fileName.substring(pos);
+            if (extension != '.xlsx') {
+                alert('Por favor selecione um arquivo xlsx em formato excel para fazer o envio');
+                return;
+            }
+            $('form').submit();
+        });
+    });
+</script>
